@@ -4,8 +4,7 @@
 set -e
 # 建立輸出檔案
 npm run build
-# 先刪除遠端分支解決快取問題
-git push origin --delete gh-pages
+
 # 移動至到打包後的dist目錄
 cd dist
 
