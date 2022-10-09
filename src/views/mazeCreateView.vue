@@ -12,7 +12,7 @@ const historyTop = ref(0);
 const maze = reactive(  { 
     value : [],
     startPos : [],
-    size : 16
+    size : 20
 });
 
 maze.value = generateMaze();
@@ -150,6 +150,7 @@ function clickPos(col, row) {
     console.log("clickPos");
     switch(setStatus.value) {
         case 1 : 
+            if(maze.startPos.length > 0) maze.value[maze.startPos[1]][maze.startPos[0]] = 'white'
             maze.startPos = [col, row] ; 
             drawBlock(col, row, "red")
             break;
@@ -195,16 +196,25 @@ function tryPlayAction() {
                 <PlayMaze :maze="maze" :sightDist="4"   /> 
             </div>
 
-            <div class="col">
-                <div class="d-flex justify-content-between m-2 ">
+            <div class="col" v-if="!tryPlay">
+                <div class="d-flex justify-content-start m-2 ">
                     <button @click="recoveryMaze" value="<" class="btn btn-outline-primary "> &larr;  </button>
-                    <button @click="tryPlayAction " value="試玩" class="btn btn-outline-success"> 試玩</button>
+
+                    <button @click="recoveryRecoveryMaze" value=">" class="btn btn-outline-primary "> &rarr; </button>
+   
+                    <button @click="tryPlayAction " value="試玩" class="btn btn-outline-success pl-2"> 試玩</button>
                     
-                    <button @click="recoveryRecoveryMaze" value=">" class="btn btn-outline-primary"> &rarr; </button>
                  </div>
-                 <div class="d-flex justify-content-center">
+                 <div class="d-flex justify-content-start">
                     <button class="btn btn-outline-danger m-2" @click="setStatus = 1">設置起始</button>
                  </div>
+            </div>
+            <div class="col" v-else >
+                <div class="d-flex justify-content-between m-2 ">
+                    <button @click="tryPlayAction " value="試玩" class="btn btn-outline-success"> 編輯</button>
+
+                 </div>
+
             </div>
 
         </div>
